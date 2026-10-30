@@ -3,8 +3,8 @@ import path from 'path';
 import { put, del } from '@vercel/blob';
 import { config } from '../config/env';
 
-// Pasta usada so no desenvolvimento local (sem BLOB_READ_WRITE_TOKEN). Em producao
-// a funcao serverless nao tem disco persistente: as fotos vao para o Vercel Blob.
+// Pasta usada no desenvolvimento local e na VPS (UPLOADS_LOCAL=1, volume do Docker).
+// Na Vercel a funcao serverless nao tem disco persistente: as fotos vao para o Blob.
 export const uploadsDir = path.resolve(process.cwd(), 'uploads');
 
 const EXT: Record<string, string> = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' };
@@ -17,7 +17,7 @@ export async function salvarFotoProduto(buffer: Buffer, mimetype: string, produt
     const blob = await put(nome, buffer, { access: 'public', contentType: mimetype, token: config.blobToken });
     return blob.url;
   }
-  if (config.emProducao) throw Object.assign(new Error('Armazenamento de fotos não configurado (BLOB_READ_WRITE_TOKEN).'), { status: 503 });
+  if (config.emProducao && !config.uploadsLocal) throw Object.assign(new Error('Armazenamento de fotos não configurado (BLOB_READ_WRITE_TOKEN).'), { status: 503 });
   await fs.promises.mkdir(uploadsDir, { recursive: true });
   const arquivo = path.basename(nome);
   await fs.promises.writeFile(path.join(uploadsDir, arquivo), buffer);

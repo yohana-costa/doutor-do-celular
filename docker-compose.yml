@@ -1,0 +1,63 @@
+# Deploy em VPS: Postgres proprio, API e site (nginx), tudo isolado na rede do projeto.
+# Segredos em .env (ver .env.example). O HTTPS fica num docker-compose.override.yml
+# que existe so na VPS (labels do Traefik), ver README.
+name: doutorcelular
+
+services:
+  doutorcelular-postgres:
+    image: postgres:16-alpine
+    container_name: doutorcelular_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: doutor_celular
+      POSTGRES_USER: doutorcelular
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no .env}
+    volumes:
+      - doutorcelular_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U doutorcelular -d doutor_celular"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - doutorcelular_network
+
+  doutorcelular-api:
+    build:
+      context: .
+      target: api
+    container_name: doutorcelular_api
+    restart: unless-stopped
+    depends_on:
+      doutorcelular-postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      UPLOADS_LOCAL: "1"
+      JWT_SECRET: ${JWT_SECRET:?defina JWT_SECRET no .env}
+      DATABASE_URL: postgresql://doutorcelular:${POSTGRES_PASSWORD}@doutorcelular-postgres:5432/doutor_celular?schema=public&connect_timeout=30
+      DATABASE_URL_UNPOOLED: postgresql://doutorcelular:${POSTGRES_PASSWORD}@doutorcelular-postgres:5432/doutor_celular?schema=public&connect_timeout=30
+    volumes:
+      - doutorcelular_uploads:/app/uploads
+    networks:
+      - doutorcelular_network
+
+  doutorcelular-web:
+    build:
+      context: .
+      target: web
+    container_name: doutorcelular_web
+    restart: unless-stopped
+    depends_on:
+      - doutorcelular-api
+    networks:
+      - doutorcelular_network
+
+volumes:
+  doutorcelular_postgres_data:
+  doutorcelular_uploads:
+
+networks:
+  doutorcelular_network:
+    driver: bridge

@@ -24,6 +24,8 @@ export const config = {
   acessoJwtExpiresIn: process.env.ACESSO_JWT_EXPIRES_IN || '60d',
   // Fotos de produto: com token, vao para o Vercel Blob; sem token (dev local), para a pasta uploads/.
   blobToken: process.env.BLOB_READ_WRITE_TOKEN || '',
+  // Na VPS (Docker) as fotos ficam em disco, num volume montado em uploads/.
+  uploadsLocal: process.env.UPLOADS_LOCAL === '1',
   // Fuso usado para "hoje" e para as series diarias do dashboard. Brasil sem horario de verao desde 2019.
   fusoHorasUtc: Number(process.env.FUSO_HORAS_UTC ?? -3),
 };

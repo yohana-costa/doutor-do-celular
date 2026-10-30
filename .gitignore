@@ -18,3 +18,7 @@ uploads/
 .vercel/
 
 *.log
+
+# saida da compilacao da imagem Docker
+backend/dist/
+backend/build-seed/

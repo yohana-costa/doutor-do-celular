@@ -17,7 +17,7 @@ app.set('trust proxy', 1);
 app.use(express.json({ limit: '1mb' }));
 app.use(logger);
 
-// Fotos enviadas no desenvolvimento local (em producao ficam no Vercel Blob).
+// Fotos gravadas em disco (dev local e VPS). Na Vercel ficam no Blob.
 if (!config.blobToken) app.use('/uploads', express.static(uploadsDir, { maxAge: '30d', immutable: true }));
 
 app.use('/api/auth', authRoutes);

@@ -186,3 +186,27 @@ Os testes criam pedidos, clientes e usuários de teste. **Nunca rode contra o ba
 
 Fontes: Archivo, Plus Jakarta Sans e IBM Plex Mono, todas sob a SIL Open Font License 1.1 (ver `assets/fonts/licencas`).
 Logo e fotos: fornecidos pela Doutor do Celular, Kauan Cell.
+
+## Deploy em VPS (Docker)
+
+Além da Vercel, o projeto sobe em qualquer VPS com Docker. Está no ar em
+**https://doutordocelular.147-93-145-137.sslip.io** (VPS 147.93.145.137, EasyPanel + Traefik).
+
+- `docker-compose.yml` sobe Postgres próprio, API e site (nginx), sem porta exposta no host.
+  O nginx serve o site e repassa `/api` para a API, no mesmo domínio.
+- Na subida, a API aplica as migrations sozinha (`prisma migrate deploy`).
+- Segredos ficam em `.env` na VPS: `POSTGRES_PASSWORD` (só letras e números) e `JWT_SECRET`.
+- O HTTPS vem de um `docker-compose.override.yml` que existe só na VPS: coloca o
+  container `doutorcelular_web` na rede `easypanel` com as labels do Traefik.
+
+Pasta na VPS: `/root/apps/doutor-do-celular`. Atualizar:
+
+```bash
+cd /root/apps/doutor-do-celular && git pull && docker compose up -d --build
+```
+
+Seed (só na primeira vez; é idempotente):
+
+```bash
+docker exec doutorcelular_api node backend/build-seed/prisma/seed.js
+```

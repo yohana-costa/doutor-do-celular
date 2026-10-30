@@ -1,0 +1,12 @@
+.git
+node_modules
+dist
+uploads
+backend/dist
+backend/build-seed
+.env
+.env.*
+!.env.example
+.vercel
+referencias
+tools/testes
