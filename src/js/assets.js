@@ -1,6 +1,6 @@
-/* Imagens do protótipo.
-   Em desenvolvimento os caminhos apontam para assets/img/.
-   No build (build.mjs) cada caminho é trocado pela imagem embutida (data URI). */
+/* Imagens fixas do site (logo, vitrine, categorias e banner), em assets/img/.
+   Fotos de produto vêm do banco: as iniciais apontam para assets/img/produto-*.jpg
+   e as enviadas pelo painel ficam no Vercel Blob. */
 const ASSETS = {
   emblem: 'assets/img/logo-kauan-cell.png',
   ph_case: 'assets/img/produto-capa-transparente.jpg',

@@ -1,0 +1,363 @@
+// Schema da Doutor do Celular, Kauan Cell (loja + assistencia tecnica + gestao).
+// Banco: PostgreSQL. Valores em dinheiro usam Decimal(10,2).
+
+generator client {
+  provider      = "prisma-client-js"
+  // rhel-openssl-3.0.x: runtime das funcoes da Vercel.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  // Neon pela integracao da Vercel: DATABASE_URL e a conexao com pool (usada pela API)
+  // e DATABASE_URL_UNPOOLED a direta (usada pelo prisma migrate).
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+// Equipe da loja (acesso a area de gestao).
+model Usuario {
+  id           String   @id @default(uuid())
+  nome         String
+  email        String   @unique
+  senha        String
+  perfil       String   @default("OPERADOR") // ADMIN | GERENTE | OPERADOR
+  ativo        Boolean  @default(true)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  movimentacoes MovimentacaoEstoque[]
+  historicoPedidos PedidoHistorico[]
+  historicoOs      OsHistorico[]
+
+  @@map("usuarios")
+}
+
+// Unidades fisicas. O id e um slug curto (itaim, suzano, carrao) usado nas URLs e no estoque.
+model Unidade {
+  id           String   @id
+  nome         String
+  nomeCurto    String
+  endereco     String?
+  horario      String?
+  whatsapp     String?
+  telefone     String?
+  ativo        Boolean  @default(true)
+  ordem        Int      @default(0)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  estoques      Estoque[]
+  movimentacoes MovimentacaoEstoque[]
+  pedidos       Pedido[]
+  ordensServico OrdemServico[]
+
+  @@map("unidades")
+}
+
+// Categorias da loja (subcategorias do prototipo). grupo = celulares | acessorios.
+model Categoria {
+  id           String   @id
+  nome         String
+  grupo        String
+  ordem        Int      @default(0)
+  ativo        Boolean  @default(true)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  produtos Produto[]
+
+  @@map("categorias")
+}
+
+model Produto {
+  id           String   @id @default(cuid())
+  codigo       String   @unique
+  nome         String
+  marca        String   @default("Diversas")
+  modelo       String   @default("")
+  categoriaId  String
+  precoBase    Decimal  @db.Decimal(10, 2)
+  ordem        Int      @default(100)
+  novidade     Boolean  @default(false)
+  ativo        Boolean  @default(true)
+  descricao    String   @default("")
+  tags         String   @default("")
+  // Lista de pares [rotulo, valor] exibida em "Especificacoes".
+  especificacoes Json   @default("[]")
+  // Ilustracao SVG usada quando nao ha foto: { kind, cam, style, end, key }.
+  arte         Json     @default("{}")
+  // Familias de aparelho compativeis (iPhone, Samsung Galaxy, ..., Universal).
+  compatibilidade Json?
+  imagemUrl    String?
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  categoria  Categoria          @relation(fields: [categoriaId], references: [id])
+  opcoes     ProdutoOpcao[]
+  exclusoes  ProdutoExclusao[]
+  variacoes  ProdutoVariacao[]
+  itensPedido PedidoItem[]
+
+  @@index([categoriaId])
+  @@map("produtos")
+}
+
+// Opcao de variacao (Cor, Armazenamento, Compativel com...). tipo = color | pill.
+model ProdutoOpcao {
+  id        String @id @default(cuid())
+  produtoId String
+  nome      String
+  tipo      String @default("pill")
+  ordem     Int    @default(0)
+
+  produto Produto             @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  valores ProdutoOpcaoValor[]
+
+  @@unique([produtoId, nome])
+  @@map("produto_opcoes")
+}
+
+model ProdutoOpcaoValor {
+  id        String  @id @default(cuid())
+  opcaoId   String
+  valor     String
+  // Acrescimo (ou desconto, se negativo) sobre o preco base.
+  acrescimo Decimal @default(0) @db.Decimal(10, 2)
+  // Cor da amostra quando a opcao e do tipo color e a cor nao esta no mapa padrao.
+  hex       String?
+  ordem     Int     @default(0)
+
+  opcao ProdutoOpcao @relation(fields: [opcaoId], references: [id], onDelete: Cascade)
+
+  @@unique([opcaoId, valor])
+  @@map("produto_opcao_valores")
+}
+
+// Combinacao que nao existe. Ex.: { "Condicao": "Seminovo", "Armazenamento": "256 GB" }.
+model ProdutoExclusao {
+  id         String @id @default(cuid())
+  produtoId  String
+  combinacao Json
+
+  produto Produto @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+
+  @@map("produto_exclusoes")
+}
+
+// Variacao vendavel: produto das opcoes menos as exclusoes. chave = valores unidos por "|"
+// na ordem das opcoes (ou "unico"). Variacao que deixa de existir fica inativa, nunca e apagada,
+// porque o estoque e o historico de movimentacoes apontam para ela.
+model ProdutoVariacao {
+  id        String   @id @default(cuid())
+  produtoId String
+  chave     String
+  sku       String
+  preco     Decimal  @db.Decimal(10, 2)
+  ativo     Boolean  @default(true)
+  criadoEm  DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  produto       Produto               @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  estoques      Estoque[]
+  movimentacoes MovimentacaoEstoque[]
+  itensPedido   PedidoItem[]
+
+  @@unique([produtoId, chave])
+  @@map("produto_variacoes")
+}
+
+// Saldo de uma variacao em uma unidade. Nunca negativo (CHECK no banco).
+model Estoque {
+  id           String   @id @default(cuid())
+  variacaoId   String
+  unidadeId    String
+  quantidade   Int      @default(0)
+  atualizadoEm DateTime @updatedAt
+
+  variacao ProdutoVariacao @relation(fields: [variacaoId], references: [id], onDelete: Cascade)
+  unidade  Unidade         @relation(fields: [unidadeId], references: [id])
+
+  @@unique([variacaoId, unidadeId])
+  @@map("estoques")
+}
+
+// Auditoria de toda alteracao de saldo. tipo = AJUSTE | VENDA | DEVOLUCAO.
+// quantidade e o delta (negativo na saida); saldoApos e o saldo depois do movimento.
+model MovimentacaoEstoque {
+  id         String   @id @default(cuid())
+  variacaoId String
+  unidadeId  String
+  tipo       String
+  quantidade Int
+  saldoApos  Int
+  motivo     String?
+  pedidoId   String?
+  usuarioId  String?
+  criadoEm   DateTime @default(now())
+
+  variacao ProdutoVariacao @relation(fields: [variacaoId], references: [id], onDelete: Cascade)
+  unidade  Unidade         @relation(fields: [unidadeId], references: [id])
+  pedido   Pedido?         @relation(fields: [pedidoId], references: [id])
+  usuario  Usuario?        @relation(fields: [usuarioId], references: [id])
+
+  @@index([variacaoId, unidadeId])
+  @@index([pedidoId])
+  @@map("movimentacoes_estoque")
+}
+
+// Cliente identificado pelo telefone (so digitos, com DDD). senha preenchida = tem conta no site.
+model Cliente {
+  id           String   @id @default(cuid())
+  nome         String
+  telefone     String   @unique
+  email        String?
+  senha        String?
+  origem       String   @default("site")
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  pedidos       Pedido[]
+  ordensServico OrdemServico[]
+
+  @@map("clientes")
+}
+
+// status = recebido | aguardando | confirmado | separacao | pronto | concluido | cancelado
+model Pedido {
+  id              String    @id @default(cuid())
+  numero          Int       @unique @default(autoincrement())
+  clienteId       String
+  unidadeId       String
+  modalidade      String    @default("retirada") // retirada | entrega
+  endereco        String?
+  pagamento       String    @default("pix") // pix | cartao | retirada
+  status          String    @default("recebido")
+  total           Decimal   @db.Decimal(10, 2)
+  // true enquanto os itens estao baixados do estoque (status de Confirmado em diante).
+  estoqueAplicado Boolean   @default(false)
+  concluidoEm     DateTime?
+  origem          String    @default("site")
+  observacao      String?
+  criadoEm        DateTime  @default(now())
+  atualizadoEm    DateTime  @updatedAt
+
+  cliente       Cliente               @relation(fields: [clienteId], references: [id])
+  unidade       Unidade               @relation(fields: [unidadeId], references: [id])
+  itens         PedidoItem[]
+  historico     PedidoHistorico[]
+  movimentacoes MovimentacaoEstoque[]
+
+  @@index([status])
+  @@index([criadoEm])
+  @@index([concluidoEm])
+  @@map("pedidos")
+}
+
+// Itens guardam um retrato do produto no momento da compra (nome, variacao, preco, sku).
+model PedidoItem {
+  id            String  @id @default(cuid())
+  pedidoId      String
+  produtoId     String
+  variacaoId    String
+  nome          String
+  variacaoNome  String  @default("")
+  chave         String
+  sku           String
+  preco         Decimal @db.Decimal(10, 2)
+  quantidade    Int
+
+  pedido   Pedido          @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  produto  Produto         @relation(fields: [produtoId], references: [id])
+  variacao ProdutoVariacao @relation(fields: [variacaoId], references: [id])
+
+  @@index([pedidoId])
+  @@map("pedido_itens")
+}
+
+model PedidoHistorico {
+  id         String   @id @default(cuid())
+  pedidoId   String
+  status     String
+  usuarioId  String?
+  observacao String?
+  criadoEm   DateTime @default(now())
+
+  pedido  Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  usuario Usuario? @relation(fields: [usuarioId], references: [id])
+
+  @@index([pedidoId])
+  @@map("pedido_historico")
+}
+
+// Catalogo de servicos da assistencia.
+model Servico {
+  id           String   @id
+  nome         String   @unique
+  icone        String   @default("tool")
+  descricao    String   @default("")
+  ativo        Boolean  @default(true)
+  ordem        Int      @default(0)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  @@map("servicos")
+}
+
+// Ordem de servico (assistencia tecnica).
+// status = recebida | avaliacao | diagnostico | orcamento | reparo | retirada | concluido | cancelado
+model OrdemServico {
+  id               String    @id @default(cuid())
+  numero           Int       @unique @default(autoincrement())
+  clienteId        String
+  unidadeId        String
+  marca            String
+  modelo           String
+  servico          String
+  descricao        String
+  status           String    @default("recebida")
+  orcamentoValor   Decimal?  @db.Decimal(10, 2)
+  orcamentoObs     String?
+  orcamentoEm      DateTime?
+  // aprovado | recusado | null (aguardando o cliente)
+  orcamentoDecisao String?
+  orcamentoDecididoEm DateTime?
+  origem           String    @default("site")
+  criadoEm         DateTime  @default(now())
+  atualizadoEm     DateTime  @updatedAt
+
+  cliente   Cliente       @relation(fields: [clienteId], references: [id])
+  unidade   Unidade       @relation(fields: [unidadeId], references: [id])
+  historico OsHistorico[]
+
+  @@index([status])
+  @@index([criadoEm])
+  @@map("ordens_servico")
+}
+
+model OsHistorico {
+  id         String   @id @default(cuid())
+  osId       String
+  status     String
+  // equipe | cliente | sistema
+  autor      String   @default("equipe")
+  usuarioId  String?
+  observacao String?
+  criadoEm   DateTime @default(now())
+
+  os      OrdemServico @relation(fields: [osId], references: [id], onDelete: Cascade)
+  usuario Usuario?     @relation(fields: [usuarioId], references: [id])
+
+  @@index([osId])
+  @@map("os_historico")
+}
+
+// Configuracoes gerais editaveis no painel (chave -> valor JSON).
+// Ex.: estoque_baixo_limite = 3, loja_whatsapp = "", entrega_texto = "".
+model Configuracao {
+  chave        String   @id
+  valor        Json
+  atualizadoEm DateTime @updatedAt
+
+  @@map("configuracoes")
+}

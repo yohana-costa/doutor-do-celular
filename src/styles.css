@@ -1,4 +1,4 @@
-/* Doutor do Celular · Kauan Cell — protótipo SMG
+/* Doutor do Celular · Kauan Cell, loja, assistência e gestão
    Tokens de cor e tipografia no :root abaixo. Pontos de quebra: 640px (tablet), 760/900px (tablet largo), 1024px (desktop), 1280px (desktop largo).
    Layout: loja mobile-first idêntica às referências; tablet amplia grades; desktop ganha navegação superior, filtros laterais e painel de gestão em duas colunas */
 :root {
@@ -433,6 +433,9 @@ svg { display: block; }
 .od--grid small { display: block; color: var(--muted); font-size: 13px; }
 .od--grid p { margin-top: 4px; color: var(--text-2); }
 .quote > div { display: flex; flex-direction: column; gap: 2px; }
+.quote > div.row { flex-direction: row; align-items: center; gap: 10px; }
+.quote > div.row .btn { flex: 1 1 160px; }
+.quote .fine { margin-top: 10px; }
 .quote b { font: 800 28px var(--f-ui); font-variant-numeric: tabular-nums; }
 .quote small { color: var(--muted); }
 .tl { list-style: none; margin: 18px 0 4px; padding: 0; }
@@ -956,3 +959,36 @@ body.is-admin .toast { bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
   .opps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .opp--wide { grid-column: span 3; }
 }
+
+/* ============ Sistema real: carregamento, login da equipe, edição no painel ============ */
+.loadbox { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 180px; color: var(--text-2); font: 600 15px var(--f-ui); }
+.spin { width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--line-2); border-top-color: var(--ink); animation: spin .8s linear infinite; display: inline-block; flex: none; }
+.spin--sm { width: 16px; height: 16px; border-width: 2.5px; border-color: rgba(0, 0, 0, .2); border-top-color: currentColor; margin-right: 6px; vertical-align: -3px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation-duration: 2.4s; } }
+.adm--loading { display: grid; place-items: center; min-height: 100vh; padding: 24px 16px; }
+.alog { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background: var(--ink); }
+.alog__card { width: 100%; max-width: 420px; background: #fff; border-radius: 22px; padding: 26px 22px; display: grid; gap: 14px; }
+.alog__card h1 { font: 800 24px/1.15 var(--f-display); }
+.alog__brand { display: flex; align-items: center; gap: 12px; }
+.alog__brand img { width: 44px; height: 44px; border-radius: 12px; }
+.alog__brand b { display: block; font: 800 17px var(--f-ui); }
+.alog__brand small { color: var(--muted); font: 700 11.5px var(--f-ui); letter-spacing: .08em; }
+.alog .lnk { justify-self: center; display: inline-flex; align-items: center; gap: 4px; }
+.seg--acc { margin: 6px 0 14px; }
+.chk { display: inline-flex; align-items: center; gap: 8px; font: 600 14px var(--f-ui); cursor: pointer; }
+.chk input { width: 18px; height: 18px; accent-color: var(--ink); }
+.qty__in { width: 58px; height: 100%; border: 0; text-align: center; font: 700 15px var(--f-ui); font-variant-numeric: tabular-nums; background: transparent; -moz-appearance: textfield; }
+.qty__in::-webkit-outer-spin-button, .qty__in::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.qty__in:focus { outline: 2px solid var(--focus); border-radius: 6px; }
+.unitf { margin: 14px 0; padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.unitf h3 { font: 700 15px var(--f-ui); }
+.opted { border: 1px solid var(--line); border-radius: 14px; padding: 10px; display: grid; gap: 8px; margin-bottom: 10px; background: var(--paper); }
+.opted__h, .opted__v { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.opted input, .opted select, .setl__f input, .setl__f select { height: 40px; border: 1.5px solid var(--line-2); border-radius: 10px; padding: 0 10px; font: 500 14.5px var(--f-ui); background: #fff; min-width: 0; flex: 1 1 110px; }
+.opted__h input { font-weight: 700; }
+.opted .iconbtn { flex: none; }
+.setl { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 8px; }
+.setl__f { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.setl__new { padding-top: 12px; border-top: 1px dashed var(--line-2); }
+.dw h3 .st { margin-left: 8px; vertical-align: middle; }
