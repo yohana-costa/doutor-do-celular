@@ -378,7 +378,12 @@ function viewCatalog() {
   const g = f.group;
   const title = g === 'acessorios' ? 'Acessórios para o seu dia.' : g === 'celulares' ? 'Celulares para o seu próximo upgrade.' : g === 'assistencia' ? 'Assistência para o seu aparelho.' : 'Tudo para o seu celular.';
   let pills;
-  if (g === 'celulares') pills = [[null, 'Todos'], ...PHONE_BRANDS.filter(b => activeProducts().some(p => p.group === 'celulares' && p.brand === b)).map(b => ['brand:' + b, b])];
+  if (g === 'celulares') {
+    // marcas vem dos produtos cadastrados; PHONE_BRANDS so define a ordem das mais comuns
+    const ordem = b => { const i = PHONE_BRANDS.indexOf(b); return i < 0 ? 99 : i; };
+    const marcas = [...new Set(activeProducts().filter(p => p.group === 'celulares').map(p => p.brand))].sort((a, b) => ordem(a) - ordem(b) || a.localeCompare(b));
+    pills = [[null, 'Todos'], ...marcas.map(b => ['brand:' + b, b])];
+  }
   else if (g === 'acessorios') pills = [[null, 'Todos'], ...SUBS.filter(s => s.group === 'acessorios').map(s => [s.id, s.label])];
   else if (g === 'assistencia') pills = [];
   else pills = [[null, 'Todos'], ...SUBS.map(s => [s.id, s.label]), ['grp:assistencia', 'Assistência']];
