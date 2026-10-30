@@ -1,0 +1,1094 @@
+PROMPT — ECOSSISTEMA DIGITAL DOUTOR DO CELULAR | KAUAN CELL
+
+E-commerce, catálogo, assistência técnica e sistema de gestão personalizado
+
+1. OBJETIVO DO PROJETO
+
+Desenvolva um protótipo front-end completo, navegável e visualmente sofisticado para a Doutor do Celular — Kauan Cell, integrando comércio eletrônico, catálogo de produtos, carrinho, pedidos, unidades físicas, assistência técnica e gestão operacional.
+
+O projeto será utilizado pela SMG (Smart Management Group) em uma apresentação comercial presencial. O objetivo é demonstrar como uma loja de celulares, acessórios e assistência técnica poderia organizar sua presença digital e suas operações por meio de um ecossistema integrado.
+
+Não desenvolva apenas uma landing page ou uma vitrine de produtos. Desenvolva uma experiência completa de e-commerce conectada a uma interface administrativa, com navegação funcional, dados compartilhados e interações demonstrativas coerentes.
+
+O projeto deverá contemplar duas áreas principais:
+
+1. Experiência do cliente
+
+* Site institucional.
+* Catálogo completo de produtos.
+* Busca, categorias e filtros.
+* Página de detalhes do produto.
+* Seleção de modelos, cores e outras variações.
+* Carrinho de compras.
+* Fluxo demonstrativo de checkout.
+* Seleção de unidade.
+* Página de assistência técnica e solicitação de orçamento.
+* Acompanhamento demonstrativo de pedidos e serviços.
+* Contato e atendimento.
+
+2. Ambiente administrativo
+
+* Dashboard de gestão.
+* Gestão de produtos e categorias.
+* Controle demonstrativo de estoque por unidade.
+* Gestão de pedidos e vendas.
+* Gestão de clientes.
+* Gestão de unidades físicas.
+* Gestão de assistência técnica.
+* Indicadores comerciais e operacionais.
+* Visão de oportunidades de venda e relacionamento.
+
+Todas as telas devem pertencer ao mesmo ecossistema e compartilhar os mesmos dados demonstrativos.
+
+Escopo técnico
+
+* Front-end demonstrativo.
+* Sem autenticação obrigatória.
+* Sem backend ou banco de dados remoto nesta etapa.
+* Sem pagamentos reais.
+* Sem integração real com marketplaces, ERPs, gateways, WhatsApp ou sistemas externos.
+* Estado compartilhado entre módulos.
+* Dados demonstrativos coerentes e identificados como fictícios.
+* Interface pronta para ser navegada e apresentada presencialmente.
+
+Não entregue apenas um plano ou uma descrição das telas. Execute a implementação no ambiente disponível e entregue o protótipo navegável.
+
+⸻
+
+2. REFERÊNCIAS VISUAIS OBRIGATÓRIAS
+
+Analise as duas imagens anexadas antes de iniciar o desenvolvimento.
+
+A primeira representa a página inicial da Doutor do Celular. A segunda representa o catálogo de acessórios e a experiência de seleção de produtos.
+
+As imagens são referências visuais obrigatórias, não apenas inspiração. Reproduza sua identidade visual, hierarquia, composição e linguagem de interface com a maior fidelidade possível.
+
+As telas adicionais deverão seguir o mesmo sistema visual, adaptado à finalidade de cada módulo.
+
+2.1. Identidade visual
+
+Preserve as características abaixo:
+
+* Preto e carvão como cores principais de identidade.
+* Amarelo vibrante como cor de destaque e ação.
+* Branco e cinza-claro como base para áreas de catálogo e conteúdo.
+* Tipografia forte, moderna e de alta legibilidade.
+* Títulos de impacto, com peso elevado e hierarquia clara.
+* Cards de produto com fundos claros, fotografias em destaque e informações objetivas.
+* Botões amarelos para as ações prioritárias.
+* Botões secundários em preto, branco ou cinza, conforme o contexto.
+* Ícones simples, modernos e consistentes.
+* Bordas e separadores discretos.
+* Contraste elevado entre fundo, conteúdo e ações.
+* Fotografias de produtos com boa iluminação, enquadramento e acabamento comercial.
+* Logo da Kauan Cell e assinatura Doutor do Celular preservadas conforme os arquivos fornecidos.
+
+A identidade deve transmitir tecnologia, confiança, agilidade, especialização e proximidade com a comunidade.
+
+Não reutilize a identidade visual dourada e sofisticada da barbearia. Este é outro negócio, com uma linguagem visual própria, mais tecnológica, urbana e comercial.
+
+2.2. Fidelidade às imagens
+
+Na página inicial, preserve:
+
+* Cabeçalho preto.
+* Menu hambúrguer.
+* Logo centralizada.
+* Ícone de sacola.
+* Faixa de localização.
+* Título principal em letras fortes.
+* Destaque amarelo na palavra “UPGRADE”.
+* Texto institucional.
+* Botões “Explorar a loja” e “Falar com o Doutor”.
+* Composição hero com smartphones e acessórios.
+* Seção “Qual é o seu próximo upgrade?”.
+* Cards de Celulares, Acessórios e Assistência.
+* Banner institucional da comunidade.
+* Seletor de unidade.
+* Navegação inferior com Início, Loja, Atendimento e Sacola.
+
+No catálogo, preserve:
+
+* Cabeçalho escuro.
+* Logo e assinatura da marca.
+* Busca com campo amplo e cantos arredondados.
+* Filtros em formato de pílula.
+* Cards de produtos em duas colunas no mobile.
+* Fotografia predominante na parte superior dos cards.
+* Nome e preço do produto.
+* Botão “Ver opções”.
+* Botão circular amarelo para adicionar.
+* Barra inferior de sacola com quantidade de itens.
+* Navegação inferior adaptada ao contexto da loja.
+
+Não utilize as capturas de tela inteiras como fundos. Reconstrua os elementos com componentes reais e interativos.
+
+Não simplifique o design para um template genérico de e-commerce.
+
+⸻
+
+3. ESTRUTURA GERAL DO ECOSSISTEMA
+
+Organize o projeto em módulos relacionados.
+
+Ambiente do cliente
+
+1. Início.
+2. Loja e catálogo.
+3. Categorias de produtos.
+4. Detalhes do produto.
+5. Sacola.
+6. Checkout demonstrativo.
+7. Confirmação do pedido.
+8. Seleção de unidade.
+9. Assistência técnica.
+10. Acompanhamento de pedido ou serviço.
+11. Atendimento.
+12. Perfil e histórico demonstrativo.
+
+Ambiente administrativo
+
+1. Dashboard.
+2. Produtos e categorias.
+3. Estoque por unidade.
+4. Pedidos e vendas.
+5. Clientes.
+6. Assistência técnica.
+7. Unidades físicas.
+8. Indicadores comerciais.
+9. Relacionamento e oportunidades.
+
+Crie uma forma clara de alternar entre o ambiente do cliente e o painel administrativo durante a apresentação.
+
+O acesso administrativo será apenas demonstrativo, sem login real. Não exponha um botão administrativo ostensivo na página inicial destinada ao cliente.
+
+⸻
+
+4. PÁGINA INICIAL — RECONSTRUÇÃO DA PRIMEIRA REFERÊNCIA
+
+Reconstrua a primeira imagem com máxima fidelidade visual.
+
+Elementos obrigatórios
+
+Cabeçalho
+
+* Menu hambúrguer à esquerda.
+* Logo da Kauan Cell e assinatura Doutor do Celular centralizadas.
+* Ícone de sacola à direita.
+* Indicador de quantidade de itens quando a sacola tiver produtos.
+
+Seção principal
+
+* Faixa de localização “CIDADE NOBRE · CONEXÃO DE RESPEITO”, conforme a referência.
+* Título “O DOUTOR DO SEU PRÓXIMO UPGRADE”.
+* Palavra “UPGRADE” destacada em amarelo.
+* Texto institucional sobre celulares, acessórios e cuidado especializado.
+* Botão “Explorar a loja”.
+* Botão “Falar com o Doutor”.
+* Composição visual com smartphones, fones, relógios, capas e outros acessórios.
+
+Utilize imagens de produtos de boa qualidade, sem deformações e sem misturar modelos de forma visualmente incoerente.
+
+Categorias em destaque
+
+Crie cards para:
+
+* Celulares.
+* Acessórios.
+* Assistência.
+
+Cada card deve direcionar para o módulo correspondente.
+
+Banner institucional
+
+Preserve a linguagem visual do banner da comunidade presente na referência, com identidade da marca, fotografia urbana e chamada institucional.
+
+Utilize os textos fornecidos na imagem como referência. Não invente parcerias, projetos sociais, certificações ou compromissos institucionais.
+
+Seletor de unidade
+
+Apresente as unidades:
+
+* Itaim Paulista.
+* Suzano.
+* Carrão.
+
+Esses nomes vêm da referência visual. Não invente endereços, horários de funcionamento, telefones ou dados de estoque reais.
+
+Permita selecionar uma unidade e mantenha essa escolha ao navegar pela loja.
+
+Navegação inferior
+
+Implemente os itens:
+
+* Início.
+* Loja.
+* Atendimento.
+* Sacola.
+
+O item ativo deve ser destacado em amarelo. Os ícones e espaçamentos devem seguir a referência.
+
+Comportamentos
+
+* “Explorar a loja” abre o catálogo.
+* “Falar com o Doutor” abre a área de atendimento demonstrativa.
+* Os cards de categorias abrem as respectivas listagens.
+* O seletor de unidade atualiza a unidade escolhida.
+* O ícone de sacola abre o carrinho.
+* O menu hambúrguer abre uma navegação funcional.
+* Os elementos interativos apresentam feedback visual.
+
+⸻
+
+5. LOJA E CATÁLOGO DE PRODUTOS
+
+O catálogo deverá ser mais completo do que o apresentado na imagem, mantendo sua linguagem visual.
+
+Crie uma experiência de e-commerce realista, com busca, categorias, filtros, ordenação, cards, detalhes e seleção de variações.
+
+5.1. Categorias
+
+Implemente pelo menos as seguintes categorias:
+
+Celulares
+
+* Smartphones Apple.
+* Smartphones Samsung.
+* Smartphones Motorola.
+* Smartphones Xiaomi.
+* Outros smartphones, quando úteis à demonstração.
+
+Acessórios
+
+* Capinhas.
+* Películas.
+* Carregadores.
+* Cabos USB-C.
+* Cabos Lightning, quando compatíveis com os produtos demonstrativos.
+* Fontes e adaptadores.
+* Fones Bluetooth.
+* Fones com fio.
+* Caixas de som Bluetooth.
+* Smartwatches.
+* Pulseiras para relógios inteligentes.
+* Power banks.
+* Suportes para celular.
+* Suportes veiculares.
+* Carregadores veiculares.
+* Acessórios para fotografia mobile.
+* Adaptadores e hubs.
+* Acessórios de conectividade.
+* Outros acessórios compatíveis com o posicionamento da loja.
+
+Assistência e serviços
+
+* Diagnóstico.
+* Troca de tela.
+* Troca de bateria.
+* Reparo de conector de carga.
+* Manutenção de câmeras.
+* Problemas de áudio.
+* Problemas de software.
+* Aplicação de película.
+* Instalação de acessórios.
+* Outros serviços de manutenção de celulares.
+
+A lista representa o escopo de demonstração, não a confirmação de que a empresa executa todos esses serviços.
+
+Identifique os serviços como exemplos até que a loja confirme seu catálogo real.
+
+5.2. Produtos demonstrativos
+
+Crie um catálogo com variedade suficiente para que o site pareça uma loja completa, e não uma vitrine com quatro itens.
+
+Inclua pelo menos 20 produtos demonstrativos, distribuídos entre celulares, acessórios e serviços.
+
+Priorize variedade de tipos, preços ilustrativos, categorias, cores e modelos.
+
+Exemplos de produtos:
+
+* Smartphones de diferentes faixas de preço.
+* Capinha transparente.
+* Capinha antichoque.
+* Capinha de silicone.
+* Capinha com suporte.
+* Película de vidro.
+* Película de privacidade.
+* Película para câmera.
+* Carregador USB-C.
+* Cabo USB-C.
+* Cabo Lightning.
+* Carregador sem fio.
+* Power bank.
+* Fone Bluetooth.
+* Fone premium com cancelamento de ruído.
+* Caixa de som portátil.
+* Smartwatch.
+* Pulseira para smartwatch.
+* Suporte veicular.
+* Carregador veicular.
+
+Utilize produtos reais como referência visual quando os ativos estiverem disponíveis. Os dados comerciais e os preços devem ser tratados como demonstrativos até validação.
+
+Não crie combinações incoerentes de marca, modelo, imagem, compatibilidade e especificação.
+
+Se o ambiente permitir utilizar imagens de produtos disponíveis nos arquivos fornecidos, priorize esses ativos. Caso contrário, utilize imagens ilustrativas adequadas aos produtos correspondentes.
+
+5.3. Busca
+
+Implemente uma barra de busca funcional.
+
+A busca deve permitir encontrar produtos por:
+
+* Nome.
+* Marca.
+* Modelo.
+* Categoria.
+* Tipo de acessório.
+
+Exemplos de pesquisas: “capinha”, “carregador USB-C”, “iPhone”, “Samsung” e “fone Bluetooth”.
+
+A busca deve filtrar os produtos apresentados, com feedback para resultados vazios e opção para limpar a pesquisa.
+
+5.4. Filtros e ordenação
+
+Implemente filtros por:
+
+* Categoria.
+* Marca.
+* Faixa de preço.
+* Disponibilidade demonstrativa.
+* Compatibilidade, quando aplicável.
+
+Implemente ordenação por:
+
+* Relevância.
+* Menor preço.
+* Maior preço.
+* Nome.
+* Novidades demonstrativas.
+
+Os filtros devem funcionar em conjunto e atualizar a listagem corretamente.
+
+5.5. Cards de produtos
+
+Siga a segunda referência.
+
+Cada card deve conter:
+
+* Fotografia do produto.
+* Nome.
+* Preço demonstrativo.
+* Informação de variação, quando relevante.
+* Botão “Ver opções”.
+* Botão de adicionar à sacola.
+* Estado visual de disponibilidade demonstrativa.
+
+Utilize uma grade de duas colunas no celular, com espaçamentos, proporções e fundos semelhantes à referência.
+
+Em telas maiores, adapte a quantidade de colunas sem comprometer a legibilidade.
+
+Não apresente preços ilustrativos como preços oficiais. Utilize uma indicação discreta de que os produtos e preços são demonstrativos.
+
+⸻
+
+6. PÁGINA DE DETALHES DO PRODUTO
+
+Crie uma página individual para cada produto, acessível pelos cards do catálogo.
+
+A página deve conter:
+
+* Galeria de imagens.
+* Nome e marca.
+* Modelo.
+* Preço demonstrativo.
+* Descrição.
+* Especificações relevantes.
+* Opções de cor.
+* Variações disponíveis.
+* Compatibilidade, quando aplicável.
+* Quantidade.
+* Disponibilidade demonstrativa.
+* Seleção de unidade.
+* Botão de adicionar à sacola.
+* Informações de entrega ou retirada, apresentadas como opções ilustrativas.
+
+Para smartphones, inclua campos como:
+
+* Capacidade de armazenamento.
+* Cor.
+* Condição do produto, quando aplicável.
+* Modelo exato.
+
+Para capinhas e películas, inclua:
+
+* Marca.
+* Tipo de proteção.
+* Cor ou acabamento.
+* Modelo de celular compatível.
+
+Para carregadores e cabos, inclua:
+
+* Tipo de conexão.
+* Potência demonstrativa, quando aplicável.
+* Compatibilidade.
+* Quantidade de portas, quando relevante.
+
+Para fones e acessórios eletrônicos, apresente as especificações pertinentes.
+
+Não apresente compatibilidades técnicas como confirmadas se os dados não tiverem sido fornecidos ou validados.
+
+Seleção de variações
+
+O usuário deve selecionar as opções necessárias antes de adicionar o produto à sacola.
+
+O sistema deve impedir a seleção de uma combinação inexistente na configuração demonstrativa.
+
+A escolha de uma variação deve atualizar o resumo do item na sacola.
+
+⸻
+
+7. SACOLA DE COMPRAS
+
+A sacola deve ser funcional e compartilhada entre todas as páginas.
+
+Inclua:
+
+* Imagem do produto.
+* Nome e variação.
+* Preço unitário.
+* Quantidade.
+* Subtotal por item.
+* Total de itens.
+* Total demonstrativo.
+* Opção para alterar quantidade.
+* Opção para remover itens.
+* Opção para continuar comprando.
+* Botão para avançar ao checkout.
+
+Regras
+
+* Adicionar um produto deve atualizar a sacola imediatamente.
+* O indicador numérico do cabeçalho deve refletir a quantidade total de unidades.
+* Produtos com variações diferentes devem ser tratados como itens distintos.
+* Alterar a quantidade deve atualizar o subtotal e o total.
+* Remover um item deve atualizar todos os indicadores.
+* A sacola deve continuar consistente ao navegar entre categorias e páginas.
+* Uma sacola vazia deve apresentar uma mensagem apropriada e uma ação para continuar comprando.
+
+A barra inferior fixa da referência deve ser reproduzida na tela de catálogo, sem encobrir o conteúdo.
+
+Quando houver itens na sacola, apresente uma barra resumida com a quantidade selecionada e o botão “Ver sacola”.
+
+Não permita que a barra cubra cards ou botões.
+
+⸻
+
+8. CHECKOUT E CONFIRMAÇÃO DO PEDIDO
+
+Crie um fluxo demonstrativo de checkout.
+
+Etapa 1 — Revisão da sacola
+
+Permita revisar os produtos, variações, quantidades e total.
+
+Etapa 2 — Dados do cliente
+
+Solicite somente os dados necessários para a demonstração:
+
+* Nome.
+* Telefone.
+* E-mail, quando necessário.
+
+Valide os campos obrigatórios.
+
+Etapa 3 — Unidade e modalidade
+
+Permita escolher uma das unidades demonstrativas:
+
+* Itaim Paulista.
+* Suzano.
+* Carrão.
+
+Permita escolher entre:
+
+* Retirada na unidade selecionada.
+* Entrega demonstrativa, quando essa opção estiver habilitada no protótipo.
+
+Não invente áreas de entrega, prazos ou custos reais.
+
+Etapa 4 — Pagamento demonstrativo
+
+Apresente opções ilustrativas de pagamento, se isso for útil à apresentação.
+
+Não colete dados bancários ou de cartão.
+
+Não conecte gateways reais.
+
+Não apresente uma cobrança como aprovada.
+
+Etapa 5 — Confirmação
+
+Exiba uma confirmação do pedido demonstrativo com:
+
+* Identificador fictício.
+* Produtos e variações.
+* Quantidades.
+* Total demonstrativo.
+* Unidade selecionada.
+* Modalidade escolhida.
+* Dados fornecidos pelo usuário.
+
+Identifique o pedido como demonstrativo.
+
+Não gerar pedidos reais, não processar pagamentos e não enviar mensagens externas.
+
+Integração com a gestão
+
+O pedido criado deve aparecer no painel administrativo.
+
+Se o usuário voltar ao catálogo, a sacola e o pedido devem manter seus estados de maneira coerente.
+
+Não exibir uma confirmação final se os campos obrigatórios não tiverem sido preenchidos.
+
+⸻
+
+9. ASSISTÊNCIA TÉCNICA
+
+A assistência técnica deve ser uma área própria do ecossistema, e não apenas um botão de contato.
+
+Crie uma página com a mesma identidade visual da marca.
+
+Página de serviços
+
+Apresente categorias demonstrativas:
+
+* Troca de tela.
+* Troca de bateria.
+* Conector de carga.
+* Câmera.
+* Áudio.
+* Diagnóstico.
+* Software.
+* Aplicação de película.
+* Outros reparos.
+
+Permita selecionar um tipo de serviço e visualizar uma descrição.
+
+Não invente preços definitivos, prazos garantidos ou políticas de garantia.
+
+Solicitação de atendimento
+
+Crie um formulário demonstrativo com:
+
+* Nome do cliente.
+* Telefone.
+* Marca do aparelho.
+* Modelo do aparelho.
+* Tipo de problema.
+* Descrição do defeito.
+* Unidade de preferência.
+
+Permita enviar a solicitação dentro do protótipo.
+
+Após o envio, gere um registro demonstrativo de atendimento e exiba uma confirmação.
+
+Não prometa que o aparelho foi recebido fisicamente pela loja.
+
+Acompanhamento
+
+Crie uma página demonstrativa para acompanhar o status de uma solicitação.
+
+Utilize estados ilustrativos como:
+
+* Solicitação recebida.
+* Aguardando avaliação.
+* Em diagnóstico.
+* Aguardando aprovação do orçamento.
+* Em reparo.
+* Aguardando retirada.
+* Concluído.
+* Cancelado.
+
+Os estados devem ser coerentes com a etapa do serviço.
+
+Não apresentar os status como atualizações reais de uma assistência técnica em funcionamento.
+
+⸻
+
+10. ATENDIMENTO E CONTATO
+
+Crie uma área para demonstrar os canais de atendimento.
+
+Inclua:
+
+* Acesso à assistência técnica.
+* Informações demonstrativas sobre as unidades.
+* Orientação para escolher a unidade.
+* Perguntas frequentes.
+* Opção de contato.
+
+Não invente telefones, endereços, horários ou links oficiais.
+
+Se não houver um canal oficial fornecido, utilize um botão demonstrativo ou sinalize que o destino precisa ser configurado.
+
+Se o compartilhamento via WhatsApp for implementado, permita abrir uma mensagem previamente preenchida, sem enviá-la automaticamente.
+
+Não alegue que um atendente está disponível em tempo real.
+
+⸻
+
+11. SELEÇÃO DE UNIDADE
+
+As unidades mencionadas na referência são:
+
+* Itaim Paulista.
+* Suzano.
+* Carrão.
+
+Implemente um seletor reutilizável de unidade.
+
+A unidade selecionada deve permanecer disponível nos módulos relevantes.
+
+Utilize a seleção para demonstrar como poderiam funcionar:
+
+* Preferência de retirada.
+* Consulta de estoque por unidade.
+* Organização dos pedidos.
+* Direcionamento de solicitações de assistência.
+
+Não invente endereços, mapas, coordenadas, horários ou estoques reais.
+
+Se o estoque demonstrativo variar entre unidades, deixe claro que os dados são fictícios.
+
+A disponibilidade de um produto deve considerar a unidade selecionada quando esse comportamento estiver implementado.
+
+Não permitir que a interface afirme disponibilidade em uma unidade sem que exista um registro demonstrativo correspondente.
+
+⸻
+
+12. PAINEL ADMINISTRATIVO
+
+Crie um painel administrativo profissional para demonstrar como o negócio poderia ser gerenciado.
+
+O painel é uma extensão proposta e não possui uma referência visual específica anexada.
+
+Utilize preto, branco, amarelo e cinza, preservando a identidade da Doutor do Celular.
+
+Para essa área, priorize legibilidade, hierarquia de informação, tabelas, filtros, indicadores e navegação clara.
+
+A interface pode ser otimizada para desktop, mas deve funcionar em telas menores.
+
+Crie uma forma simples de alternar entre “Loja” e “Gestão” durante a apresentação.
+
+12.1. Dashboard
+
+Apresente indicadores demonstrativos como:
+
+* Vendas do dia.
+* Pedidos do período.
+* Faturamento demonstrativo.
+* Ticket médio.
+* Produtos vendidos.
+* Produtos mais vendidos.
+* Pedidos pendentes.
+* Solicitações de assistência.
+* Estoque baixo.
+* Distribuição das vendas por unidade.
+
+Inclua:
+
+* Filtro de período.
+* Gráficos legíveis.
+* Resumo de pedidos recentes.
+* Alertas demonstrativos.
+* Atalhos para os módulos operacionais.
+
+Os indicadores devem ser calculados a partir dos dados demonstrativos do sistema.
+
+Não utilize números aleatórios desconectados dos pedidos e produtos.
+
+Deixe explícito que os resultados são simulados.
+
+12.2. Gestão de produtos
+
+Crie uma área com:
+
+* Lista de produtos.
+* Busca.
+* Filtros por categoria e marca.
+* Nome.
+* Código demonstrativo.
+* Categoria.
+* Preço demonstrativo.
+* Variações.
+* Disponibilidade.
+* Quantidade em estoque por unidade.
+
+Permita abrir um produto e visualizar seus detalhes.
+
+Permita simular ações de cadastro, edição e desativação de produtos, atualizando o estado compartilhado do protótipo.
+
+Se houver um novo produto cadastrado na demonstração, ele deve aparecer no catálogo do cliente.
+
+As alterações não devem ser apresentadas como salvas em um sistema de produção.
+
+12.3. Controle de estoque
+
+Crie uma visão de estoque por unidade.
+
+Inclua:
+
+* Produto.
+* Variação.
+* Unidade.
+* Quantidade demonstrativa.
+* Indicador de estoque baixo.
+* Estado de disponibilidade.
+
+Permita filtrar por unidade, categoria e situação.
+
+Utilize regras consistentes para a demonstração.
+
+Quando um pedido for criado, defina claramente se ele apenas reserva itens ou se simula a baixa do estoque. Não aplicar os dois comportamentos simultaneamente.
+
+Se a demonstração utilizar baixa de estoque, ela deve ocorrer conforme o status configurado do pedido e não deve duplicar movimentações.
+
+Ao cancelar um pedido, reflita a regra demonstrativa definida para a devolução dos itens.
+
+Não tratar um pedido criado como uma venda concluída se ele ainda não tiver atingido o estado correspondente.
+
+12.4. Pedidos e vendas
+
+Implemente uma lista administrativa de pedidos.
+
+Apresente:
+
+* Identificador.
+* Cliente.
+* Data demonstrativa.
+* Itens.
+* Valor total.
+* Unidade.
+* Modalidade.
+* Status.
+
+Utilize estados demonstrativos como:
+
+* Recebido.
+* Aguardando confirmação.
+* Confirmado.
+* Em separação.
+* Pronto para retirada.
+* Concluído.
+* Cancelado.
+
+Permita abrir o detalhe de um pedido e simular a alteração de status.
+
+A mudança de status deve refletir-se nas telas relacionadas.
+
+Pedidos concluídos devem ser distinguíveis de pedidos apenas criados ou confirmados.
+
+Os indicadores de vendas devem seguir a regra escolhida para considerar uma venda realizada.
+
+12.5. Gestão de clientes
+
+Crie uma área com:
+
+* Lista de clientes demonstrativos.
+* Busca por nome ou telefone fictício.
+* Histórico de pedidos.
+* Total de compras demonstrativas.
+* Último pedido.
+* Solicitações de assistência.
+* Unidade preferida, quando houver.
+
+Ao abrir um cliente, apresente o histórico relacionado.
+
+O mesmo cliente deve aparecer com os mesmos dados em pedidos e solicitações.
+
+Não invente dados pessoais reais.
+
+12.6. Gestão de assistência técnica
+
+Crie uma área administrativa para organizar solicitações de reparo.
+
+Inclua:
+
+* Identificador da solicitação.
+* Cliente.
+* Marca e modelo do aparelho.
+* Descrição do problema.
+* Serviço solicitado.
+* Unidade.
+* Data demonstrativa.
+* Status.
+* Orçamento demonstrativo, quando aplicável.
+
+Permita abrir os detalhes e alterar o status do atendimento.
+
+Permita simular o registro de um orçamento, sem apresentar o valor como oficial.
+
+As alterações devem aparecer na área de acompanhamento demonstrativo do cliente.
+
+Não implementar assinatura digital, aceite contratual, emissão fiscal ou integrações reais.
+
+12.7. Gestão de unidades
+
+Crie uma área para consultar as três unidades.
+
+Permita visualizar:
+
+* Nome.
+* Produtos disponíveis no estoque demonstrativo.
+* Pedidos associados.
+* Solicitações de assistência.
+* Indicadores por unidade.
+
+Não invente informações comerciais não fornecidas.
+
+12.8. Relacionamento e oportunidades comerciais
+
+Crie uma área simples para demonstrar como os dados poderiam apoiar ações comerciais.
+
+Exemplos:
+
+* Clientes que compraram smartphones e podem ter interesse em acessórios compatíveis.
+* Pedidos recentes.
+* Clientes com solicitação de assistência.
+* Produtos frequentemente comprados juntos.
+* Categorias com maior movimentação demonstrativa.
+* Produtos com estoque baixo.
+* Oportunidades de venda complementar.
+
+Permita abrir os registros relacionados e visualizar sugestões de ação.
+
+Essas recomendações devem ser regras demonstrativas simples e transparentes, não previsões garantidas.
+
+Não implementar campanhas reais ou disparos automáticos.
+
+⸻
+
+13. MODELO DE DADOS E INTEGRAÇÃO ENTRE MÓDULOS
+
+Organize o projeto como um sistema único, mesmo sem backend.
+
+Considere entidades reutilizáveis para:
+
+* Produtos.
+* Categorias.
+* Marcas.
+* Variações.
+* Compatibilidades.
+* Unidades.
+* Estoque.
+* Clientes.
+* Sacola.
+* Pedidos.
+* Itens de pedido.
+* Solicitações de assistência.
+* Histórico de status.
+* Indicadores derivados.
+
+Não mantenha uma lista de produtos independente em cada tela.
+
+O catálogo, os detalhes, a sacola e o painel administrativo devem consumir os mesmos dados.
+
+Fluxo demonstrativo obrigatório
+
+1. O usuário abre a loja.
+2. Busca um produto ou escolhe uma categoria.
+3. Seleciona o produto e sua variação.
+4. Adiciona o item à sacola.
+5. Altera a quantidade ou adiciona outros produtos.
+6. Conclui o checkout demonstrativo.
+7. O pedido aparece no painel administrativo.
+8. O pedido pode ter seu status alterado.
+9. Os indicadores são atualizados conforme as regras definidas.
+10. A unidade selecionada permanece coerente nas telas relacionadas.
+
+Fluxo de assistência obrigatório
+
+1. O cliente abre a área de assistência.
+2. Escolhe um tipo de problema.
+3. Preenche os dados demonstrativos.
+4. Envia a solicitação.
+5. O sistema gera um registro demonstrativo.
+6. A solicitação aparece no painel administrativo.
+7. O status pode ser alterado no painel.
+8. A área de acompanhamento do cliente reflete a mudança.
+
+Regras gerais
+
+* Evite duplicar registros.
+* Mantenha os identificadores consistentes.
+* Calcule os totais a partir dos itens.
+* Atualize os indicadores a partir dos registros.
+* Mantenha a sacola consistente ao navegar.
+* Não confunda pedido com venda concluída.
+* Não confunda solicitação com reparo finalizado.
+* Não apresente estoque fictício como estoque real.
+* Não credite uma operação duas vezes quando um status for alterado repetidamente.
+
+Utilize estado compartilhado e, quando necessário, armazenamento local do navegador para preservar a demonstração entre telas e atualizações.
+
+Implemente uma opção para restaurar os dados iniciais, permitindo repetir a apresentação comercial.
+
+⸻
+
+14. RESPONSIVIDADE E ACABAMENTO
+
+A experiência mobile deve ser prioridade.
+
+Na versão mobile:
+
+* Preserve a composição da página inicial de referência.
+* Utilize duas colunas de produtos no catálogo.
+* Garanta boa legibilidade.
+* Mantenha os botões confortáveis para toque.
+* Respeite as áreas seguras do aparelho.
+* Evite rolagem horizontal involuntária.
+* Reserve espaço para a navegação inferior fixa.
+* Não permita que a barra da sacola cubra os produtos.
+* Mantenha a quantidade de itens atualizada.
+* Utilize imagens proporcionais e bem enquadradas.
+
+Na versão desktop:
+
+* Amplie a grade de produtos conforme o espaço.
+* Preserve a identidade visual.
+* Utilize melhor a largura disponível.
+* Organize o painel administrativo em uma estrutura profissional, com navegação e conteúdo bem separados.
+
+Evite esticar a interface mobile sem adaptar sua composição.
+
+⸻
+
+15. DADOS DEMONSTRATIVOS E LIMITES
+
+Não invente informações oficiais da empresa.
+
+São demonstrativos até confirmação:
+
+* Preços.
+* Promoções.
+* Quantidades em estoque.
+* Disponibilidade por unidade.
+* Especificações de produtos.
+* Compatibilidade de acessórios.
+* Condições de garantia.
+* Prazos de reparo.
+* Custos de assistência.
+* Endereços e contatos.
+* Prazos e custos de entrega.
+* Formas de pagamento efetivamente aceitas.
+
+Utilize valores ilustrativos suficientes para demonstrar os fluxos, mas identifique-os discretamente como demonstrativos.
+
+Não invente avaliações de clientes, certificações, parcerias ou depoimentos.
+
+Não utilize imagens de produtos incompatíveis com seus nomes e especificações.
+
+Não faça alegações de que o site está conectado ao estoque real, que os pedidos são recebidos pela equipe ou que as solicitações de reparo foram efetivamente registradas pela empresa.
+
+⸻
+
+16. PLANO DE EXECUÇÃO
+
+Execute o projeto por etapas, sem interromper a implementação após construir a primeira tela.
+
+Etapa 1 — Análise
+
+* Examine as duas imagens.
+* Identifique a identidade visual.
+* Inspecione os ativos e o projeto existente.
+* Defina a arquitetura das telas.
+* Estruture os dados demonstrativos.
+
+Etapa 2 — Loja
+
+* Reproduza a página inicial.
+* Implemente o catálogo completo.
+* Crie a busca e os filtros.
+* Implemente os detalhes dos produtos.
+* Construa a sacola.
+* Implemente o checkout e a confirmação.
+
+Etapa 3 — Assistência
+
+* Crie a página de serviços.
+* Implemente a solicitação de atendimento.
+* Construa o acompanhamento demonstrativo.
+
+Etapa 4 — Gestão
+
+* Implemente o dashboard.
+* Crie os módulos de produtos, estoque, pedidos, clientes e assistência.
+* Conecte os módulos aos mesmos dados utilizados na loja.
+
+Etapa 5 — Validação
+
+* Compare as duas telas principais com as referências.
+* Teste a navegação.
+* Teste as variações e a sacola.
+* Teste o checkout.
+* Teste os pedidos administrativos.
+* Teste o fluxo de assistência.
+* Verifique os indicadores e os filtros.
+* Valide a responsividade.
+
+⸻
+
+17. CRITÉRIOS DE ACEITAÇÃO
+
+O protótipo será considerado pronto quando:
+
+* A página inicial reproduzir fielmente a primeira referência.
+* O catálogo reproduzir fielmente a segunda referência.
+* O catálogo apresentar variedade suficiente de produtos e categorias.
+* Busca, filtros e ordenação funcionarem.
+* As páginas de detalhes permitirem selecionar variações.
+* A sacola atualizar quantidades e totais corretamente.
+* O checkout puder ser concluído dentro da demonstração.
+* O pedido aparecer no painel administrativo.
+* A assistência técnica tiver um fluxo demonstrativo completo.
+* O painel administrativo estiver conectado à loja.
+* Os indicadores forem coerentes com os dados demonstrativos.
+* A seleção de unidade funcionar nas áreas relevantes.
+* As telas forem responsivas.
+* Os dados fictícios estiverem identificados.
+* Nenhuma integração real inexistente for apresentada como ativa.
+
+Prioridades de qualidade
+
+1. Fidelidade visual às referências.
+2. Experiência de compra completa e coerente.
+3. Catálogo amplo, organizado e funcional.
+4. Integração entre loja e gestão.
+5. Assistência técnica integrada ao ecossistema.
+6. Qualidade dos dados demonstrativos.
+7. Responsividade e acabamento.
+
+Não sacrifique a identidade visual para adicionar funcionalidades desnecessárias. Não entregue um catálogo bonito, mas sem fluxo de compra. Não entregue um painel com indicadores desconectados dos pedidos.
+
+⸻
+
+18. RESULTADO FINAL ESPERADO
+
+Entregue uma experiência digital completa, navegável e pronta para uma apresentação comercial da SMG à Doutor do Celular — Kauan Cell.
+
+O proprietário deve conseguir visualizar:
+
+* Como um cliente descobre a loja.
+* Como encontra celulares e acessórios.
+* Como escolhe um produto e uma variação.
+* Como monta uma sacola.
+* Como conclui um pedido demonstrativo.
+* Como solicita um serviço de assistência.
+* Como a equipe poderia organizar pedidos, produtos e estoque.
+* Como poderia acompanhar os atendimentos.
+* Como poderia visualizar indicadores comerciais e operacionais.
+
+A proposta é demonstrar o potencial de um sistema personalizado que conecta comércio eletrônico, operação física e assistência técnica.
+
+Comece analisando as duas imagens e a estrutura do projeto disponível. Depois, execute a implementação completa, valide a fidelidade visual e teste os principais fluxos. Não finalize apenas com uma descrição ou um plano de desenvolvimento.

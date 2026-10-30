@@ -1,0 +1,14 @@
+{
+  "name": "doutor-do-celular-prototipo",
+  "version": "1.0.0",
+  "description": "Protótipo navegável da Doutor do Celular — Kauan Cell: loja, assistência técnica e painel de gestão. SMG (Smart Management Group).",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "build": "node build.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
