@@ -244,9 +244,16 @@ const ACT = {
   'ed-ex-add': () => { UI.adm.edit.exclude.push({}); render(); },
   'ed-ex-rm': el => { UI.adm.edit.exclude.splice(Number(el.dataset.k), 1); render(); },
   'user-toggle': el => busy(async () => { try { await api(`/auth/usuarios/${el.dataset.id}`, { method: 'PUT', body: { ativo: el.dataset.v === '1' }, auth: 'equipe' }); drop('adm-users'); toast('Usuário atualizado.', 'ok'); } catch (e) { admFail(e); } }),
-  'np-open': () => { UI.adm.np = { name: '', sub: SUBS.find(s => s.id === 'capinhas') ? 'capinhas' : (SUBS[0] || {}).id, brand: 'Diversas', price: '', stock: '0', colors: ['Preto'], desc: '', err: {} }; UI.modal = { type: 'adm', sub: 'np' }; render(); },
+  'np-open': () => { UI.adm.np = { name: '', sub: SUBS.find(s => s.id === 'capinhas') ? 'capinhas' : (SUBS[0] || {}).id, brand: 'Diversas', price: '', stock: '0', colors: ['Preto'], desc: '', foto: null, fotoUrl: '', err: {} }; UI.modal = { type: 'adm', sub: 'np' }; render(); },
+  'np-photo-rm': () => { npFoto(null); render(); },
   'np-color': el => { const c = el.dataset.v, a = UI.adm.np.colors; UI.adm.np.colors = a.includes(c) ? a.filter(x => x !== c) : [...a, c]; render(); },
 };
+/* Foto escolhida no cadastro: fica so no navegador (com previa) ate o produto ser criado. */
+function npFoto(file) {
+  const np = UI.adm.np; if (!np) return;
+  if (np.fotoUrl) URL.revokeObjectURL(np.fotoUrl);
+  np.foto = file; np.fotoUrl = file ? URL.createObjectURL(file) : '';
+}
 let lastWasStore = false;
 function refreshFilters() { if (UI.modal && UI.modal.type === 'filters') render(); else rerenderCatalogResults(); }
 const parseMoney = s => { const t = String(s).trim(); if (!t) return NaN; const n = Number(t.replace(/[^\d,.-]/g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.')); return isFinite(n) ? n : NaN; };
@@ -374,8 +381,19 @@ const FORMS = {
     busy(async () => {
       try {
         const r = await gapi('/produtos', { method: 'POST', body }); mergeProduct(r);
+        let fotoErr = '';
+        if (np.foto) {
+          try {
+            const small = await reduzirImagem(np.foto);
+            if (small.size > 4 * 1024 * 1024) throw new Error('A imagem continua grande demais (limite de 4 MB).');
+            const fd = new FormData(); fd.append('imagem', small);
+            mergeProduct(await gapi(`/produtos/${r.product.id}/imagem`, { method: 'POST', form: fd }));
+          } catch (err) { fotoErr = err.message; }
+        }
+        npFoto(null);
         UI.modal = null; UI.adm.np = null; UI.adm.drawer = { type: 'product', id: r.product.id }; UI.adm.edit = null;
-        toast(`${r.product.name} cadastrado e visível na loja`, 'ok');
+        if (fotoErr) toast(`${r.product.name} cadastrado, mas a foto não foi enviada: ${fotoErr}`, 'warn');
+        else toast(`${r.product.name} cadastrado e visível na loja`, 'ok');
       } catch (e) { np.err = { submit: e.message }; }
     });
   },
@@ -447,6 +465,11 @@ document.addEventListener('change', e => {
   if (el.type === 'checkbox' && el.dataset.in) return;
   if (el.dataset.stkSet) { const q = parseInt(el.value, 10); if (!(q >= 0)) { toast('Informe uma quantidade válida.', 'bad'); render(); return; } stockSet(el.dataset.pid, el.dataset.vkey, el.dataset.unit, { quantidade: q }); return; }
   if (el.dataset.userPerfil) { busy(async () => { try { await api(`/auth/usuarios/${el.dataset.userPerfil}`, { method: 'PUT', body: { perfil: el.value }, auth: 'equipe' }); drop('adm-users'); toast('Perfil atualizado.', 'ok'); } catch (err) { drop('adm-users'); admFail(err); } }); return; }
+  if (el.dataset.up === 'np-photo' && el.files && el.files[0]) {
+    const file = el.files[0];
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) { toast('Use uma imagem JPG, PNG ou WEBP.', 'bad'); el.value = ''; return; }
+    npFoto(file); render(); return;
+  }
   if (el.dataset.up === 'photo' && el.files && el.files[0]) {
     const id = el.dataset.id, file = el.files[0];
     busy(async () => {

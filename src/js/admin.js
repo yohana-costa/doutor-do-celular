@@ -429,9 +429,10 @@ function admModal(m) {
     const colors = ['Preto', 'Branco', 'Cinza', 'Prata', 'Azul', 'Azul-marinho', 'Verde-menta', 'Lilás', 'Rosa', 'Amarelo', 'Vermelho', 'Laranja'];
     const fe = k => np.err && np.err[k] ? `<p class="ferr">${esc(np.err[k])}</p>` : '';
     return `<div class="scrim scrim--modal" data-act="modal-close"></div><div class="modal modal--wide" role="dialog" aria-modal="true"><button class="modal__x" data-act="modal-close" aria-label="Fechar">${icon('x', 22)}</button>
-      <h2>Novo produto</h2><p class="muted">O produto aparece na loja assim que for cadastrado. Variações extras, foto e combinações podem ser ajustadas depois, na ficha do produto.</p>
+      <h2>Novo produto</h2><p class="muted">O produto aparece na loja assim que for cadastrado. Variações extras e combinações podem ser ajustadas depois, na ficha do produto.</p>
       <form data-form="np" novalidate><div class="np">
-        <div class="np__prev">${productArt({ id: 'np', art: AUTO_ART[np.sub] || {}, options: [opt('Cor', np.colors.length ? np.colors : ['Preto'])] }, { 'Cor': np.colors[0] || 'Preto' })}<small>Ilustração gerada pela categoria</small></div>
+        <div class="np__prev">${np.fotoUrl ? `<img class="np__foto" src="${np.fotoUrl}" alt="Foto do produto">` : productArt({ id: 'np', art: AUTO_ART[np.sub] || {}, options: [opt('Cor', np.colors.length ? np.colors : ['Preto'])] }, { 'Cor': np.colors[0] || 'Preto' })}<small>${np.fotoUrl ? 'Foto escolhida' : 'Sem foto, a loja usa a ilustração da categoria'}</small>
+          <div class="row"><label class="btn btn--soft btn--sm" for="np-up">${icon('camera', 16)}${np.fotoUrl ? 'Trocar foto' : 'Escolher foto'}</label><input id="np-up" class="sr" type="file" accept="image/jpeg,image/png,image/webp" data-up="np-photo">${np.fotoUrl ? `<button type="button" class="btn btn--soft btn--sm" data-act="np-photo-rm">${icon('trash', 16)}Remover</button>` : ''}</div></div>
         <div class="form">
           <div class="field ${np.err && np.err.name ? 'bad' : ''}"><label for="np-name">Nome *</label><input id="np-name" data-in="np.name" value="${esc(np.name)}" placeholder="Ex.: Capa de couro">${fe('name')}</div>
           <div class="form form--2"><div class="field"><label for="np-sub">Categoria</label><select id="np-sub" data-in="np.sub">${SUBS.map(s => `<option value="${s.id}" ${np.sub === s.id ? 'selected' : ''}>${esc(s.label)}</option>`).join('')}</select></div>
